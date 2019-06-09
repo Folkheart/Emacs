@@ -159,7 +159,6 @@
   ("M-f" . avy-goto-char-in-line)
   )
 
-
 ;;-----------------MAGIT-----------------;;
 (use-package magit
   :after (evil-leader)
@@ -167,6 +166,7 @@
   :config
   (evil-leader/set-key "gs" 'magit-status)
   )
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
