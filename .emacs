@@ -29,7 +29,7 @@
 
 ;;----------------CONFIGS----------------;;
 ;; default directory on Windows.
-(setq default-directory "c:/TRABAJO/Programacion/")
+(setq default-directory "c:/TRABAJO/")
 ;; remember last session.
 (desktop-save-mode 1)
 
