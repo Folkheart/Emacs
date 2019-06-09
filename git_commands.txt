@@ -1,7 +1,25 @@
+;; start git project
 git init
+;; project status
 git status
+;; stage file
 git add README.md
+;; commit whit note/message
 git commit -m "first commit"
+;; set remote location as "origin"
 git remote add origin https://github.com/Folkheart/dotconfigs.git
+;; view remote locations
 git remote -v
+;; push to remote master branch
 git push -u origin master
+
+;; cording to magit but not working
+git config --global user.email "your@email.com"
+git config --global user.name "yourname"
+
+;; the way is working for magit
+git config user.email "your@email.con"
+git config user.name "yourname"
+
+;; to know local configuration
+git config --local -l
