@@ -1,4 +1,4 @@
-;;------------Initial Config-------------;;
+;;--------------SPEEDUP-INIT-------------;;
 ;; Temporarily reduce garbage collection on startup. Inspect `gcs-done'.
 (defun ambrevar/reset-gc-cons-threshold ()
   (setq gc-cons-threshold (car (get 'gc-cons-threshold 'standard-value))))
@@ -15,113 +15,76 @@
 (add-hook 'after-init-hook #'ambrevar/reset-file-name-handler-alist)
 ;; Avoid the "loaded old bytecode instead of newer source" pitfall.
 (setq load-prefer-newer t)
+
+;;----------------CONFIGS----------------;;
 ;; Enable package list.
 (require 'package)
 (add-to-list 'package-archives
 	     '("melpa" . "http://melpa.milkbox.net/packages/"))
 (package-initialize)
-;; bootstrap for use-package for new instalations.
+
+;; bootstrap for use-package.
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
-  (package-install 'use-package))
+  (package-install 'use-package)
+  )
 (eval-when-compile
   (require 'use-package))
 
 ;;----------------CONFIGS----------------;;
 ;; default directory on Windows.
 (setq default-directory "c:/TRABAJO/")
-;; remember last session.
-(desktop-save-mode 1)
+;; set font.
+(add-to-list 'default-frame-alist '(font . "Consolas 12"))
+;; enable/disable bars.
+(menu-bar-mode -1)
+(scroll-bar-mode -1)
+(tool-bar-mode -1)
+;; emacs transparency.
+(set-frame-parameter (selected-frame) 'alpha '(95 100))
+(add-to-list 'default-frame-alist '(alpha 95 100))
+;; highlight line for vim modes.
+(global-hl-line-mode 1)
+(add-hook 'evil-emacs-state-entry-hook
+	(lambda() (set-face-background 'hl-line "#322")))
+(add-hook 'evil-normal-state-entry-hook
+	(lambda() (set-face-background 'hl-line "#241")))
+(add-hook 'evil-insert-state-entry-hook
+	(lambda() (set-face-background 'hl-line "#115")))
+(add-hook 'evil-operator-state-entry-hook
+	(lambda() (set-face-background 'hl-line "#520")))
+(add-hook 'evil-visual-state-entry-hook
+	(lambda() (set-face-background 'hl-line nil)))
 
 ;;----------------THEMING----------------;;
-(use-package dracula-theme 
+(use-package dracula-theme
   :ensure t
   :config
   (load-theme 'dracula t)
-  ;; set font.
-  (add-to-list 'default-frame-alist '(font . "Consolas 12"))
-  ;; emacs transparency.
-  (set-frame-parameter (selected-frame) 'alpha '(95 100))
-  (add-to-list 'default-frame-alist '(alpha 95 100))
-  ;; highlight line for vim modes.
-  (global-hl-line-mode 1)
-  (add-hook 'evil-emacs-state-entry-hook
-	    (lambda() (set-face-background 'hl-line "#313")))
-  (add-hook 'evil-normal-state-entry-hook
-	    (lambda() (set-face-background 'hl-line "#241")))
-  (add-hook 'evil-insert-state-entry-hook
-	    (lambda() (set-face-background 'hl-line "#115")))
-  (add-hook 'evil-operator-state-entry-hook
-	    (lambda() (set-face-background 'hl-line "#520")))
-  (add-hook 'evil-visual-state-entry-hook
-	    (lambda() (set-face-background 'hl-line nil)))
-  ;; enable/disable bars.
-  (menu-bar-mode -1)
-  (scroll-bar-mode -1)
-  (tool-bar-mode -1)
   )
 
 ;;--------CONFLICTING-DEPENDENCIES-------;;
-(use-package undo-tree ;for evil-leader and evil
+;for evil-leader and evil.
+(use-package undo-tree
   :ensure t
   :config
   (global-undo-tree-mode)
   )
-
-(use-package async ;for helm
+;for helm.
+(use-package async
   :ensure t
   :config
   (autoload 'dired-async-mode "dired-async.el" nil t)
   (dired-async-mode 1)
   )
-
-(use-package evil-leader ;activates leader in scratch and messages buffers
+;for leader in scratch and other buffers.
+(use-package evil-leader
+  :ensure t
   :after (undo-tree)
-  :ensure t
   :config
-  (global-evil-leader-mode)
   (evil-leader/set-leader "<SPC>")
-  )
-
-;;---------------EVIL-MODE---------------;;
-(use-package evil
-  :after (evil-leader)
-  :ensure t
-  :init
-  (evil-mode 1)
-  )
-
-(use-package evil-escape
-  :after (evil)
-  :ensure t
-  :config
-  (evil-escape-mode)
-  (setq-default evil-escape-key-sequence "jj")
-  (setq-default evil-escape-delay 0.3)
-  )
-
-;; (use-package evil-goggles
-;;   :after (evil)
-;;   :ensure t
-;;   :config
-;;   (evil-goggles-mode 1)
-;;   )
-
-(use-package evil-commentary
-  :after (evil)
-  :ensure t
-  :config
-  (evil-commentary-mode)
-  )
-
-;;-----------------HELM------------------;;
-(use-package helm
-  :after (async evil-leader)
-  :ensure t
-  :bind
-  ("M-x" . helm-M-x)
-  ("C-s" . helm-occur)
-  :config
+  (global-evil-leader-mode)
+  ;; leader binds.
   (evil-leader/set-key "pp" 'helm-projectile)
   (evil-leader/set-key "bb" 'helm-buffers-list)
   (evil-leader/set-key "pr" 'projectile-remove-known-project)
@@ -132,39 +95,59 @@
   (evil-leader/set-key "rb" 'revert-buffer)
   (evil-leader/set-key "ww" 'whitespace-mode)
   (evil-leader/set-key "wc" 'whitespace-cleanup)
+  (evil-leader/set-key "gs" 'magit-status)
+  ;; common binds.
+  (global-set-key (kbd "M-x") 'helm-M-x)
+  (global-set-key (kbd "C-s") 'helm-occur)
+  )
+
+;;--------------MAJOR-MODES--------------;;
+(use-package evil
+  :ensure t
+  :defer t
+  :config
+  (evil-mode 1)
+  )
+
+(use-package helm
+  :ensure t
+  :defer t
+  :config
+  )
+
+(use-package projectile
+  :ensure t
+  :defer t
+  :config
+  (setq projectile-project-search-path '("C:/TRABAJO"))
+  (projectile-mode 1)
+  )
+
+(use-package magit
+  :ensure t
+  :defer t
+  )
+
+;;------------SECONDARY-MODES------------;;
+(use-package evil-escape
+  :ensure t
+  :after (evil)
+  :config
+  (setq-default evil-escape-key-sequence "jj")
+  (setq-default evil-escape-delay 0.3)
+  (evil-escape-mode)
+  )
+
+(use-package evil-commentary
+  :ensure t
+  :after (evil)
+  :config
+  (evil-commentary-mode)
   )
 
 (use-package helm-projectile
-  :after (helm)
   :ensure t
-  )
-
-;;--------------PROJECTILE---------------;;
-(use-package projectile
-  :after (helm)
-  :ensure t
-  :config
-  (setq projectile-project-search-path '("C:/TRABAJO"))
-  (projectile-mode +1)
-  )
-
-;;------------------AVY------------------;;
-(use-package avy
-  :after (evil-leader)
-  :ensure t
-  :bind
-  ("M-a" . avy-goto-char-timer)
-  ("M-s" . avy-goto-char-2)
-  ("M-d" . avy-goto-char)
-  ("M-f" . avy-goto-char-in-line)
-  )
-
-;;-----------------MAGIT-----------------;;
-(use-package magit
-  :after (evil-leader)
-  :ensure t
-  :config
-  (evil-leader/set-key "gs" 'magit-status)
+  :defer t
   )
 
 (custom-set-variables
