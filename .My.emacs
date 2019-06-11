@@ -35,7 +35,7 @@
 ;; default directory on Windows.
 (setq default-directory "c:/TRABAJO/")
 ;; set font.
-(add-to-list 'default-frame-alist '(font . "Consolas 12"))
+(add-to-list 'default-frame-alist '(font . "Consolas 11"))
 ;; enable/disable bars.
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
