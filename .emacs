@@ -7,12 +7,6 @@
 (setq-default default-directory "c:/TRABAJO/")
 
 ;;--------CONFLICTING-DEPENDENCIES-------;;
-;for evil-leader and evil.
-(use-package undo-tree
-  :ensure t
-  :config
-  (global-undo-tree-mode)
-  )
 ;for helm.
 (use-package async
   :ensure t
@@ -20,34 +14,10 @@
   (autoload 'dired-async-mode "dired-async.el" nil t)
   (dired-async-mode 1)
   )
-;for leader in scratch and other buffers.
-(use-package evil-leader
-  :ensure t
-  :after (undo-tree)
-  :config
-  (evil-leader/set-leader "<SPC>")
-  (global-evil-leader-mode)
-  ;; leader binds.
-  (evil-leader/set-key "pp" 'helm-projectile)
-  (evil-leader/set-key "bb" 'helm-buffers-list)
-  (evil-leader/set-key "pr" 'projectile-remove-known-project)
-  (evil-leader/set-key "m" 'helm-bookmarks)
-  (evil-leader/set-key "ff" 'helm-find-files)
-  (evil-leader/set-key "bk" 'kill-current-buffer)
-  (evil-leader/set-key "s" 'save-buffer)
-  (evil-leader/set-key "rb" 'revert-buffer)
-  (evil-leader/set-key "ww" 'whitespace-mode)
-  (evil-leader/set-key "wc" 'whitespace-cleanup)
-  (evil-leader/set-key "gs" 'magit-status)
-  ;; common binds.
-  (global-set-key (kbd "M-x") 'helm-M-x)
-  (global-set-key (kbd "C-s") 'helm-occur)
-  )
 
 ;;--------------MAJOR-MODES--------------;;
 (use-package evil
   :ensure t
-  :defer t
   :config
   (evil-mode 1)
   )
@@ -55,7 +25,6 @@
 (use-package helm
   :ensure t
   :defer t
-  :config
   )
 
 (use-package projectile
@@ -72,15 +41,6 @@
   )
 
 ;;------------SECONDARY-MODES------------;;
-(use-package evil-escape
-  :ensure t
-  :after (evil)
-  :config
-  (setq-default evil-escape-key-sequence "jj")
-  (setq-default evil-escape-delay 0.3)
-  (evil-escape-mode)
-  )
-
 (use-package evil-commentary
   :ensure t
   :after (evil)
@@ -99,6 +59,47 @@
   (which-key-mode 1)
   )
 
+(use-package general
+  :ensure t
+  :config
+  (general-override-mode 1)
+  (general-def
+   "M-x" 'helm-M-x
+   "C-s" 'helm-occur
+   )
+  (general-create-definer my-leader
+    :prefix "SPC"
+    )
+  (my-leader 'normal
+	     ""   '(nil :which-key "EXIT")
+
+	     "s"  'save-buffer
+	     "m"  'helm-bookmarks
+
+	     "it" 'emacs-init-time
+
+	     "w"  '(:ignore t :which-key "whitespace")
+	     "ww" 'whitespace-mode
+	     "wc" 'whitespace-cleanup
+
+	     "f"  '(:ignore t :which-key "file")
+	     "ff" 'helm-find-files
+
+	     "p"  '(:ignore t :which-key "projectile")
+	     "pp" 'helm-projectile
+	     "pr" 'projectile-remove-known-project
+
+	     "b"  '(:ignore t :which-key "buffer")
+	     "be" 'eval-buffer
+	     "bb" 'helm-buffers-list
+	     "bk" 'kill-current-buffer
+	     "br" 'revert-buffer
+
+	     "g"  '(:ignore t :which-key "git")
+	     "gs" 'magit-status
+	     )
+  )
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -106,7 +107,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (which-key magit avy helm-projectile helm evil-commentary evil-escape evil-leader async undo-tree dracula-theme use-package))))
+    (general which-key helm-projectile evil-commentary magit projectile helm evil async dracula-theme use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
