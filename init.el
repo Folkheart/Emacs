@@ -16,8 +16,9 @@
 (add-hook 'after-init-hook #'ambrevar/reset-file-name-handler-alist)
 
 ;; Avoid the "loaded old bytecode instead of newer source" pitfall.
-(setq load-prefer-newer t)
-
+(setq load-prefer-newer t
+      package--init-file-ensured t
+      package-enable-at-startup nil)
 ;;----------PACKAGE-MANAGEMENT-----------;;
 ;; Enable package list.
 (require 'package)

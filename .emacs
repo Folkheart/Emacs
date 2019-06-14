@@ -9,7 +9,6 @@
 ;;--------CONFLICTING-DEPENDENCIES-------;;
 ;for helm.
 (use-package async
-  :ensure t
   :config
   (autoload 'dired-async-mode "dired-async.el" nil t)
   (dired-async-mode 1)
@@ -17,18 +16,15 @@
 
 ;;--------------MAJOR-MODES--------------;;
 (use-package evil
-  :ensure t
   :config
   (evil-mode 1)
   )
 
 (use-package helm
-  :ensure t
   :defer t
   )
 
 (use-package projectile
-  :ensure t
   :defer t
   :config
   (setq projectile-project-search-path '("C:/TRABAJO"))
@@ -36,36 +32,40 @@
   )
 
 (use-package magit
-  :ensure t
   :defer t
   )
 
 ;;------------SECONDARY-MODES------------;;
 (use-package evil-commentary
-  :ensure t
   :after (evil)
   :config
   (evil-commentary-mode)
   )
 
-(use-package helm-projectile
-  :ensure t
+(use-package helm-swoop
   :defer t
   )
 
+(use-package helm-projectile
+  :commands (helm-projectile
+  	     helm-projectile-find-file
+  	     helm-projectile-recentf
+  	     helm-projectile-switch-project
+  	     helm-projectile-switch-to-buffer)
+  )
+
 (use-package which-key
-  :ensure t
   :config
   (which-key-mode 1)
   )
 
 (use-package general
-  :ensure t
   :config
   (general-override-mode 1)
   (general-def
    "M-x" 'helm-M-x
    "C-s" 'helm-occur
+   "M-s" 'helm-swoop
    )
   (general-create-definer my-leader
     :prefix "SPC"
@@ -73,31 +73,76 @@
   (my-leader 'normal
 	     ""   '(nil :which-key "EXIT")
 
-	     "s"  'save-buffer
+	     "s"  'mode-line-other-buffer
 	     "m"  'helm-bookmarks
+	     "j"  'next-buffer
+	     "k"  'previous-buffer
 
 	     "it" 'emacs-init-time
 
-	     "w"  '(:ignore t :which-key "whitespace")
-	     "ww" 'whitespace-mode
-	     "wc" 'whitespace-cleanup
+	     "d"  '(:ignore t :which-key "dired")
+	     "dj" 'dired-jump
+	     "do" 'dired-jump-other-window
+
+	     "D"  '(:ignore t :which-key "desktop")
+	     "Ds" 'desktop-save
+	     "Dr" 'desktop-read
+
+	     "e"  '(:ignore t :which-key "edit tools")
+	     "ew" 'whitespace-mode
+	     "ec" 'whitespace-cleanup
 
 	     "f"  '(:ignore t :which-key "file")
-	     "ff" 'helm-find-files
+	     "ff" '(helm-find-files                  :wk "find file")
+	     "fr" '(helm-recentf                     :wk "recent files")
 
-	     "p"  '(:ignore t :which-key "projectile")
+	     "w"  '(:ignore t                        :wk "window managent")
+	     "wh" '(split-window-horizontally        :wk "split horizontally")
+	     "wv" '(split-window-vertically          :wk "split vertically")
+	     "ww" '(other-window                     :wk "other window")
+	     "wd" '(window-delete                    :wk "delete window")
+	     "wD" '(delete-other-windows             :wk "delete other windows")
+
+	     "p"  '(:ignore t                        :wk "project")
 	     "pp" 'helm-projectile
-	     "pr" 'projectile-remove-known-project
+	     "ps" '(helm-projectile-switch-project   :wk "switch project")
+	     "pr" '(helm-projectile-recentf          :wk "recent files")
+	     "pb" '(helm-projectile-switch-to-buffer :wk "buffers")
+	     "pf" '(helm-projectile-find-file        :wk "find files")
 
 	     "b"  '(:ignore t :which-key "buffer")
 	     "be" 'eval-buffer
 	     "bb" 'helm-buffers-list
 	     "bk" 'kill-current-buffer
 	     "br" 'revert-buffer
+	     "bs" 'save-buffer
 
-	     "g"  '(:ignore t :which-key "git")
-	     "gs" 'magit-status
+	     "g"  '(:ignore t                        :wk "git")
+	     "gs" '(magit-status                     :wk "status")
 	     )
+  )
+
+(use-package nasm-mode
+  :hook (asm-mode . nasm-mode)
+  ;; (add-hook 'asm-mode-hook 'nasm-mode)
+  )
+
+(use-package eyebrowse
+  ;; :ensure t
+  :config
+  (general-def
+    "M-1" 'eyebrowse-switch-to-window-config-1
+    "M-2" 'eyebrowse-switch-to-window-config-2
+    "M-3" 'eyebrowse-switch-to-window-config-3
+    "M-4" 'eyebrowse-switch-to-window-config-4
+    "M-5" 'eyebrowse-switch-to-window-config-5
+    "M-6" 'eyebrowse-switch-to-window-config-6
+    "M-7" 'eyebrowse-switch-to-window-config-7
+    "M-8" 'eyebrowse-switch-to-window-config-8
+    "M-9" 'eyebrowse-switch-to-window-config-9
+    "M-0" 'eyebrowse-switch-to-window-config-0
+    )
+  (eyebrowse-mode t)
   )
 
 (custom-set-variables
@@ -107,7 +152,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (general which-key helm-projectile evil-commentary magit projectile helm evil async dracula-theme use-package))))
+    (diminish helm-swoop general which-key helm-projectile evil-commentary magit projectile helm evil async dracula-theme use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

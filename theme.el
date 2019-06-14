@@ -1,4 +1,4 @@
-;;---------------SETTINGS----------------;;
+;---------------SETTINGS----------------;;
 ;; enable/disable bars.
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
@@ -13,7 +13,6 @@
 
 ;;----------------THEMING----------------;;
 (use-package dracula-theme
-  :ensure t
   :config
   (load-theme 'dracula t)
   )
