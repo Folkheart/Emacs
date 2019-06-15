@@ -1,0 +1,11 @@
+/emacs-26.1-x86_64.zip
+/run_emacs.bat
+/.emacs~
+bin/
+etc/
+include/
+lib/
+libexec/
+share/
+ssl/
+.emacs.d/

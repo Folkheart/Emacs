@@ -1,0 +1,12 @@
+-/*.zip
+-/run_emacs.bat
+-/*.el~
+-/.*~
+-bin/
+-etc/
+-include/
+-lib/
+-libexec/
+-share/
+-ssl/
+-.emacs.d/
