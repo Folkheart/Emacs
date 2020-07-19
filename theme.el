@@ -1,32 +1,37 @@
 ;---------------SETTINGS----------------;;
+(prefer-coding-system 'utf-8)
+(when (display-graphic-p)
+  (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING)))
 ;; enable/disable bars.
-(menu-bar-mode -1)
+; (menu-bar-mode -1)
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
-;; set space between lines.
-(setq-default line-spacing 3)
-;; set font.
-(add-to-list 'default-frame-alist '(font . "Consolas 11"))
-;; emacs transparency.
-(set-frame-parameter (selected-frame) 'alpha '(95 100))
-(add-to-list 'default-frame-alist '(alpha 95 100))
-
-;;----------------THEMING----------------;;
-(use-package dracula-theme
-  :config
-  (load-theme 'dracula t)
-  )
-
-;;------------CURSOR-BEHAVIOR------------;;
-;; highlight line for vim modes.
+;; display clock on mode line
+(display-time-mode 1)
+;; lazy yes or no
+(fset 'yes-or-no-p 'y-or-n-p)
+;; ;; highlight line for vim modes.
 (global-hl-line-mode 1)
-(add-hook 'evil-emacs-state-entry-hook
-	(lambda() (set-face-background 'hl-line "#553")))
-(add-hook 'evil-normal-state-entry-hook
-	(lambda() (set-face-background 'hl-line "#241")))
-(add-hook 'evil-insert-state-entry-hook
-	(lambda() (set-face-background 'hl-line "#115")))
-(add-hook 'evil-operator-state-entry-hook
-	(lambda() (set-face-background 'hl-line "#520")))
-(add-hook 'evil-visual-state-entry-hook
-	(lambda() (set-face-background 'hl-line nil)))
+;; set font.
+(set-frame-font "Mononoki-11:bold" nil t)
+;; emacs transparency.
+;; (set-frame-parameter (selected-frame) 'alpha '(95 100))
+;; (add-to-list 'default-frame-alist '(alpha 95 100))
+;; ;;----------------THEMING----------------;;
+
+;; (use-package gruvbox-theme
+;;   :config
+;;   (load-theme 'gruvbox-dark-hard t)
+;;   )
+
+; (use-package mood-line :ensure t
+;   :config
+;   (mood-line-mode)
+;   )
+
+;; (use-package doom-modeline          :ensure t
+;;   ;; :diminish doom-modeline
+;;   :config
+;;   (doom-modeline-mode 1)
+;;   ;; M-x all-the-icons-install-fonts
+;;   )
