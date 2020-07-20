@@ -1,0 +1,34 @@
+#+STARTUP: Overview
+#+TITLE: Example .org file
+#+CREATOR: Leandro Adrián Paz
+#+PROPERTY: 
+
+* TABLE :toc:
+
+#+BEGIN_SRC c
+#include <stdio.h>
+
+#+END_SRC
+
+* NIVEL 1
+  Tipos de texto:
+
+  *Negrita*
+  /Cursiva/
+  _Subrayado_
+  =Literal=
+  +Tachado+
+
+** NIVEL 2
+   jjjjjj
+** holala
+   ljjjjj
+
+   
+
+| name         | sex   |      DNI |
+|--------------+-------+----------|
+| Sara Mitchel | Women | 43522345 |
+| Pepe Roviro  | Man   | 89400948 |
+| Juan Ju      | Man   | 84322222 |
+|--------------+-------+----------|
