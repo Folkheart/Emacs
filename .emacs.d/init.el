@@ -2,11 +2,11 @@
 (cond
   ((string-equal system-type "windows-nt")
    (progn 
-          (setq package-user-dir "C:/TRABAJO/Programas/Emacs/elpa"
+          (setq package-user-dir "~/elpa"
                 default-directory "C:/TRABAJO/"
                 projectile-project-search-path '("C:/TRABAJO/"))
-          (load "C:/TRABAJO/Programas/Emacs/.emacs.d/start.el")
-          (load "C:/TRABAJO/Programas/Emacs/.emacs.d/theme.el")
+          (load "~/.emacs.d/start.el")
+          (load "~/.emacs.d/theme.el")
           ))
   ((string-equal system-type "gnu/linux")
    (progn
