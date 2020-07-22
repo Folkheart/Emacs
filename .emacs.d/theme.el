@@ -3,7 +3,7 @@
 (when (display-graphic-p)
   (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING)))
 ;; enable/disable bars.
-; (menu-bar-mode -1)
+(menu-bar-mode -1)
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
 ;; display clock on mode line
@@ -13,7 +13,7 @@
 ;; ;; highlight line for vim modes.
 (global-hl-line-mode 1)
 ;; set font.
-(set-frame-font "Mononoki-11:bold" nil t)
+(set-frame-font "Mononoki-10:bold" nil t)
 ;; emacs transparency.
 ;; (set-frame-parameter (selected-frame) 'alpha '(95 100))
 ;; (add-to-list 'default-frame-alist '(alpha 95 100))
@@ -24,10 +24,10 @@
   (load-theme 'gruvbox-dark-hard t)
   )
 
-; (use-package mood-line :ensure t
-;   :config
-;   (mood-line-mode)
-;   )
+;; (use-package mood-line :ensure t
+;;   :config
+;;   (mood-line-mode)
+;;   )
 
 ;; (use-package doom-modeline          :ensure t
 ;;   ;; :diminish doom-modeline
