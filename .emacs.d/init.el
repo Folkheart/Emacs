@@ -41,14 +41,14 @@
 (use-package projectile
   ;; :after (company)
   :config
+  ;; (setq projectile-indexing-method 'native)
+  (setq projectile-sort-order 'recently-active)
   (setq projectile-completion-system 'ivy)
   ;; (setq projectile-project-search-path '("C:/TRABAJO"))
   (projectile-mode 1)
   )
 
-;; (use-package magit
-;;   :defer t
-;;   )
+(use-package magit :defer t)
 
 (use-package ivy
   :after (projectile)
@@ -70,7 +70,8 @@
   ;; (add-hook 'asm-mode-hook 'nasm-mode)
   )
 
-;; (use-package haskell-mode :ensure nil)
+(use-package haskell-mode :defer t)
+
 
 (use-package evil
   ; :after (evil-commentary)
@@ -87,6 +88,8 @@
 ;   ; (evil-commentary-mode)
 ;   )
 
+(use-package flycheck
+  :init (global-flycheck-mode))
 
 (use-package esup :commands (esup))
 
@@ -94,8 +97,8 @@
   :config
   (use-package which-key
     :config 
-    (setq which-key-idle-delay 0.1)
-    ;; (which-key-mode 1)
+    (setq which-key-idle-delay 0.5)
+    ;; (setq which-key-popup-type 'frame)
     )
   ;; (general-override-mode 1)
   (general-def 'override
@@ -156,9 +159,23 @@
    "br" '(revert-buffer                             :wk "revert buffer")
    "bs" '(save-buffer                               :wk "save buffer")
    
-   ;; "g"  '(:ignore t                              :wk "git")
-   ;; "gs" '(magit-status                           :wk "status")
+   "g"  '(:ignore t                              :wk "git")
+   "gs" '(magit-status                           :wk "status")
    )
   (general-override-mode 1)
-  (which-key-mode 1)
+  ;; (which-key-mode 1)
   )
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (dired-plus dired+ haskell-mode magit flycheck which-key use-package projectile nasm-mode gruvbox-theme general evil-commentary esup delight counsel company))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
